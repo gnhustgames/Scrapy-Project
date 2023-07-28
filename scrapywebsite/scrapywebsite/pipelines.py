@@ -5,6 +5,7 @@
 
 
 # useful for handling different item types with a single interface
+# Xác định nơi lưu trữ dữ liệu quét về
 from itemadapter import ItemAdapter
 
 

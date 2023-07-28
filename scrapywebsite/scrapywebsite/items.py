@@ -2,7 +2,7 @@
 #
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/items.html
-
+# định nghĩa các trường trong dữ liệu quét về
 import scrapy
 
 

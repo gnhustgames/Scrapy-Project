@@ -2,7 +2,7 @@
 #
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-
+# khi gửi yêu cầu đến 1 trang web thì thêm được các nội dung muốn gửi vào đây
 from scrapy import signals
 
 # useful for handling different item types with a single interface

@@ -5,8 +5,9 @@ from ..items import ScrapywebsiteItem
 
 class ScrapySpider(scrapy.Spider):
     name = 'firstCrawl'
+    page_number = 2
     start_urls = [
-        "https://quotes.toscrape.com/"
+        "https://quotes.toscrape.com/page/1/"
     ]
 
     def parse(self, response):
@@ -26,6 +27,11 @@ class ScrapySpider(scrapy.Spider):
             items['tag'] = tag
 
             yield items
-        next_page = response.css('li.next a::attr(href)').get()
-        if next_page is not None:
+        # next_page = response.css('li.next a::attr(href)').get()
+        next_page = 'https://quotes.toscrape.com/page/' + \
+            str(ScrapySpider.page_number)+'/'
+        # if next_page is not None:
+        #     yield response.follow(next_page, callback=self.parse)
+        if ScrapySpider.page_number < 11:
+            ScrapySpider.page_number += 1
             yield response.follow(next_page, callback=self.parse)

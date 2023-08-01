@@ -9,7 +9,7 @@
 from itemadapter import ItemAdapter
 # data scraper -> item containers -> json/csv files
 # data scraper -> item containers -> pipelines -> SQL/Mongo Database
-import sqlite3
+import mysql.connector
 
 
 class ScrapywebsitePipeline:
@@ -18,7 +18,12 @@ class ScrapywebsitePipeline:
         self.create_table()
 
     def create_connection(self):
-        self.conn = sqlite3.connect("firstCrawl.db")
+        self.conn = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            passwd='Abcd123424022001',
+            database="firstCrawl"
+        )
         self.curr = self.conn.cursor()
 
     def create_table(self):
@@ -34,7 +39,7 @@ class ScrapywebsitePipeline:
         return item
 
     def store_db(self, item):
-        self.curr.execute("""insert into firstCrawl_tb values (?,?,?)""", (
+        self.curr.execute("""insert into firstCrawl_tb values (%s,%s,%s)""", (
             item['title'][0],
             item['author'][0],
             item['tag'][0]

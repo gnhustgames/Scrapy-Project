@@ -1,24 +1,17 @@
 
 import scrapy
-from scrapy.http import FormRequest
 from ..items import ScrapywebsiteItem
 
 
 class ScrapySpider(scrapy.Spider):
     name = 'firstCrawl'
+    page_number = 2
     start_urls = [
-        "https://quotes.toscrape.com/login"
+        "https://quotes.toscrape.com/"
     ]
 
     def parse(self, response):
-        token = response.css('form input::attr(value)').extract_first()
-        return FormRequest.from_response(response, formdata={
-            'csrf_token': token,
-            'username': 'nguyengiang20112001@gmail.com',
-            'password': '123456'
-        }, callback=self.start_scraping)
 
-    def start_scraping(self, response):
         items = ScrapywebsiteItem()
 
         all_div_quotes = response.css('div.quote')
@@ -34,3 +27,12 @@ class ScrapySpider(scrapy.Spider):
             items['tag'] = tag
 
             yield items
+
+        # next_page = response.css('li.next a::attr(href)').get()
+        # next_page = 'https://quotes.toscrape.com/page/' + \
+        #     str(ScrapySpider.page_number)+'/'
+        # if next_page is not None:
+        #     yield response.follow(next_page, callback=self.parse)
+        # if ScrapySpider.page_number < 11:
+        #     ScrapySpider.page_number += 1
+        #     yield response.follow(next_page, callback=self.parse)
